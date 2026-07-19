@@ -1,0 +1,22 @@
+name: Mirror to tia-aluminium.github.io
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Push to mirror repo
+        env:
+          MIRROR_TOKEN: ${{ secrets.MIRROR_TOKEN }}
+        run: |
+          git remote add mirror "https://tia-aluminium:${MIRROR_TOKEN}@github.com/tia-aluminium/tia-aluminium.github.io.git"
+          git push mirror HEAD:main --force
