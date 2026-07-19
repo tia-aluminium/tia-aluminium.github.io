@@ -24,32 +24,62 @@
 
   /* ---------- Responsive (mobile / tablet) ---------- */
   img, svg, video { max-width:100%; height:auto; }
+  html { scroll-padding-top:76px; }
 
   @media (max-width: 820px) {
-    /* Any multi-column layout grid collapses to a single column */
+    /* Multi-column layout grids collapse to a single column… */
     [style*="grid-template-columns"] { grid-template-columns:1fr !important; gap:24px !important; }
+    /* …except the stat cards, which read better as a 2×2 grid */
+    .spec-cards { grid-template-columns:1fr 1fr !important; gap:14px !important; }
+
+    /* Sector tabs: vertical rail becomes a horizontally swipeable strip */
+    .tab-rail { flex-direction:row !important; overflow-x:auto; gap:10px !important; padding-bottom:8px; -webkit-overflow-scrolling:touch; }
+    .tab-rail button { flex:0 0 auto; min-width:200px; }
   }
 
   @media (max-width: 680px) {
-    /* Trim the fixed 40px side padding on every page container so
-       content no longer overflows / hugs the screen edge.
-       ("1240px" appears only in the max-width of these containers, and
-       is matched as a bare value so it survives CSSOM reserialization.) */
-    [style*="1240px"] { padding-left:18px !important; padding-right:18px !important; }
+    /* Containers: trim the fixed 40px side padding; tall sections also
+       drop their 88–94px vertical padding to phone-appropriate rhythm */
+    .wrap { padding-left:18px !important; padding-right:18px !important; }
+    .sec-pad { padding:52px 18px !important; }
+    .sec-pad-b { padding:0 18px 52px !important; }
 
-    /* Scale down the oversized headings that cause horizontal scroll.
-       Property-qualified so we don't also shrink gap/margin/padding values
-       of 44/40/32px. Both spaced + unspaced forms are listed so the match
-       holds whether or not CSSOM reserialization inserts a space. */
-    [style*="font-size: 66px"], [style*="font-size:66px"] { font-size:36px !important; line-height:1.05 !important; }
-    [style*="font-size: 46px"], [style*="font-size:46px"] { font-size:29px !important; }
-    [style*="font-size: 44px"], [style*="font-size:44px"] { font-size:29px !important; }
+    /* Type scale-down (both spaced/unspaced forms so the match holds
+       regardless of CSSOM reserialization). Property-qualified so
+       gap/margin/padding values of the same size aren't touched. */
+    [style*="font-size: 66px"], [style*="font-size:66px"] { font-size:37px !important; line-height:1.04 !important; }
+    [style*="font-size: 46px"], [style*="font-size:46px"] { font-size:28px !important; }
+    [style*="font-size: 44px"], [style*="font-size:44px"] { font-size:28px !important; }
     [style*="font-size: 40px"], [style*="font-size:40px"] { font-size:27px !important; }
+    [style*="font-size: 34px"], [style*="font-size:34px"] { font-size:26px !important; }
     [style*="font-size: 32px"], [style*="font-size:32px"] { font-size:24px !important; }
+    [style*="font-size: 30px"], [style*="font-size:30px"] { font-size:23px !important; }
 
-    /* Collapse the top-nav section links; keep logo + Call/WhatsApp CTA */
+    /* Header: hide section links, tighten brand + CTA so the bar fits */
     .main-nav a[href^="#"] { display:none !important; }
-    .main-nav { gap:12px !important; }
+    .main-nav { gap:10px !important; }
+    .main-nav a[target] { padding:9px 13px !important; font-size:13px !important; }
+    .brand-name { font-size:16px !important; }
+    .brand-sub { font-size:8.5px !important; letter-spacing:0.12em !important; }
+
+    /* Hero: full-width stacked CTAs, tighter stats, shorter photo,
+       and the overlay badges drop below the photo instead of covering it */
+    .hero-ctas { flex-direction:column; align-items:stretch !important; }
+    .hero-ctas a { justify-content:center; }
+    .hero-stats { gap:20px 26px !important; margin-top:36px !important; flex-wrap:wrap; }
+    .hero-img-box { height:300px !important; }
+    .hero-badges { position:static !important; padding:10px; flex-wrap:wrap; align-items:stretch !important; gap:8px !important; }
+    .hero-badges > div { flex:1 1 150px; }
+
+    /* Sectors: swipe hint sizing + tighter panel */
+    .tab-rail button { min-width:180px; padding:14px 16px !important; }
+    .sector-panel { padding:20px !important; }
+
+    /* RFQ form card hugs the screen less */
+    .form-card { padding:22px 16px !important; }
+
+    /* Credibility badges: 2-column grid instead of a sparse flex row */
+    .cred-row { display:grid !important; grid-template-columns:1fr 1fr; gap:16px !important; }
   }
 </style>
 <title>Aluminium Extrusion Supplier in Delhi NCR | Custom Dies & Profiles — Tia Aluminium Profiles</title>
@@ -61,12 +91,12 @@
 
   <!-- ===================== HEADER ===================== -->
   <header style="position:sticky; top:0; z-index:50; background:rgba(255,255,255,0.9); backdrop-filter:blur(14px); border-bottom:1px solid #e5e4df;">
-    <div style="max-width:1240px; margin:0 auto; padding:15px 40px; display:flex; align-items:center; justify-content:space-between; gap:24px;">
+    <div class="wrap" style="max-width:1240px; margin:0 auto; padding:15px 40px; display:flex; align-items:center; justify-content:space-between; gap:24px;">
       <a href="#top" style="display:flex; align-items:center; gap:11px;">
         <span style="width:36px; height:36px; display:grid; place-items:center; background:linear-gradient(135deg,#3b82d6,#1d4e85); border-radius:7px; font-family:'Barlow Condensed',sans-serif; font-weight:800; color:#fff; font-size:22px;">T</span>
         <span style="display:flex; flex-direction:column; line-height:1;">
-          <span style="font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:20px; letter-spacing:0.01em; color:#1b1e23; text-transform:uppercase;">Tia Aluminium Profiles</span>
-          <span style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:0.18em; text-transform:uppercase; color:#8a8f96; margin-top:3px;">Extrusion · Custom Dies · Supply</span>
+          <span class="brand-name" style="font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:20px; letter-spacing:0.01em; color:#1b1e23; text-transform:uppercase;">Tia Aluminium Profiles</span>
+          <span class="brand-sub" style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:0.18em; text-transform:uppercase; color:#8a8f96; margin-top:3px;">Extrusion · Custom Dies · Supply</span>
         </span>
       </a>
       <nav class="main-nav" style="display:flex; align-items:center; gap:32px;">
@@ -83,18 +113,18 @@
   <!-- ===================== HERO ===================== -->
   <section id="top" style="position:relative; background:#ffffff; border-bottom:1px solid #e5e4df; overflow:hidden;">
     <div style="position:absolute; inset:0; background:radial-gradient(760px 440px at 82% -6%, rgba(37,99,168,0.09), transparent 62%); pointer-events:none;"></div>
-    <div style="position:relative; max-width:1240px; margin:0 auto; padding:88px 40px 84px; display:grid; grid-template-columns:1.12fr 1fr; gap:60px; align-items:center;">
+    <div class="wrap sec-pad" style="position:relative; max-width:1240px; margin:0 auto; padding:88px 40px 84px; display:grid; grid-template-columns:1.12fr 1fr; gap:60px; align-items:center;">
       <div style="animation:tiaRise .7s ease both;">
         <div style="display:inline-flex; align-items:center; gap:10px; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:#1d4e85; background:#eaf1f9; border:1px solid #c3d6ec; padding:7px 14px; border-radius:100px; margin-bottom:26px;">
           <span style="width:7px; height:7px; border-radius:50%; background:#2563a8; display:inline-block;"></span> Delhi NCR · 40 Years of Expertise
         </div>
         <h1 style="font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:66px; line-height:0.98; letter-spacing:-0.01em; color:#191c21; margin-bottom:22px; text-transform:uppercase;">If it can be extruded,<br><span style="color:#2563a8;">we can supply it.</span></h1>
         <p style="font-size:18.5px; line-height:1.55; color:#565c64; max-width:552px; margin-bottom:34px;">Standard sections, complex bespoke dies, specific alloy tempers and reliable multi-ton supply — engineered from your blueprint and delivered out of Delhi NCR.</p>
-        <div style="display:flex; flex-wrap:wrap; gap:14px; align-items:center;">
+        <div class="hero-ctas" style="display:flex; flex-wrap:wrap; gap:14px; align-items:center;">
           <a href="#rfq" style="display:inline-flex; align-items:center; gap:10px; background:#2563a8; color:#fff; font-weight:700; font-size:16px; padding:16px 28px; border-radius:8px; box-shadow:0 10px 28px rgba(37,99,168,0.3); transition:transform .18s, box-shadow .18s;" style-hover="transform:translateY(-2px); box-shadow:0 14px 32px rgba(37,99,168,0.4);">Get a Quote for Your Section →</a>
           <a href="#sectors" style="display:inline-flex; align-items:center; gap:8px; color:#22262c; font-weight:600; font-size:15px; padding:16px 22px; border:1px solid #d5d4cf; border-radius:8px; background:#fff; transition:border-color .2s, background .2s;" style-hover="border-color:#2563a8; background:#f0f5fb;">Explore Capabilities</a>
         </div>
-        <div style="display:flex; gap:44px; margin-top:50px;">
+        <div class="hero-stats" style="display:flex; gap:44px; margin-top:50px;">
           <sc-for list="{{ heroStats }}" as="s" hint-placeholder-count="3">
             <div>
               <div style="font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:34px; color:#191c21; line-height:1;">{{ s.value }}</div>
@@ -105,10 +135,10 @@
       </div>
       <div style="position:relative; animation:tiaFade .9s ease both;">
         <div style="position:relative; border-radius:14px; overflow:hidden; border:1px solid #e2e1dc; background:#f0efeb; box-shadow:0 24px 60px rgba(25,28,33,0.1);">
-          <div style="width:100%; height:450px;">
+          <div class="hero-img-box" style="width:100%; height:450px;">
             <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="hero-photo" shape="rect" placeholder="Drop your factory / profile photo here" hint-size="100%,450px"></x-import>
           </div>
-          <div style="position:absolute; bottom:16px; left:16px; right:16px; display:flex; justify-content:space-between; align-items:flex-end; gap:12px;">
+          <div class="hero-badges" style="position:absolute; bottom:16px; left:16px; right:16px; display:flex; justify-content:space-between; align-items:flex-end; gap:12px;">
             <div style="background:rgba(255,255,255,0.94); backdrop-filter:blur(6px); border:1px solid #e2e1dc; border-radius:9px; padding:12px 16px;">
               <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:#1d4e85;">Alloy Range</div>
               <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:17px; color:#191c21; margin-top:3px;">6061 · 6063 · 6082 · 1100</div>
@@ -124,7 +154,7 @@
   </section>
 
   <!-- ===================== CAPABILITIES / ADVANTAGE ===================== -->
-  <section id="expertise" style="max-width:1240px; margin:0 auto; padding:94px 40px;">
+  <section id="expertise" class="wrap sec-pad" style="max-width:1240px; margin:0 auto; padding:94px 40px;">
     <div style="max-width:660px; margin-bottom:52px;">
       <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:#1d4e85; margin-bottom:16px;">// Why Tia</div>
       <h2 style="font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:46px; line-height:1.02; letter-spacing:-0.005em; color:#191c21; text-transform:uppercase;">Extrusion capability, engineered around your spec</h2>
@@ -144,7 +174,7 @@
 
   <!-- ===================== SECTORS (INTERACTIVE TABS) ===================== -->
   <section id="sectors" style="background:#ffffff; border-top:1px solid #e5e4df; border-bottom:1px solid #e5e4df;">
-    <div style="max-width:1240px; margin:0 auto; padding:94px 40px;">
+    <div class="wrap sec-pad" style="max-width:1240px; margin:0 auto; padding:94px 40px;">
       <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:24px; flex-wrap:wrap; margin-bottom:44px;">
         <div style="max-width:620px;">
           <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:#1d4e85; margin-bottom:16px;">// Sectors We Serve</div>
@@ -155,7 +185,7 @@
 
       <div style="display:grid; grid-template-columns:0.9fr 1.4fr; gap:28px; align-items:stretch;">
         <!-- Tab rail -->
-        <div style="display:flex; flex-direction:column; gap:12px;">
+        <div class="tab-rail" style="display:flex; flex-direction:column; gap:12px;">
           <sc-for list="{{ sectors }}" as="sec" hint-placeholder-count="4">
             <button onClick="{{ sec.select }}" style="{{ sec.tabStyle }}">
               <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; opacity:0.7;">{{ sec.no }}</span>
@@ -165,7 +195,7 @@
         </div>
 
         <!-- Active panel -->
-        <div style="background:#f7f6f3; border:1px solid #e5e4df; border-radius:14px; padding:38px; display:flex; flex-direction:column;">
+        <div class="sector-panel" style="background:#f7f6f3; border:1px solid #e5e4df; border-radius:14px; padding:38px; display:flex; flex-direction:column;">
           <div style="display:flex; align-items:center; gap:14px; margin-bottom:18px;">
             <div style="width:52px; height:52px; border-radius:11px; background:#2563a8; display:grid; place-items:center; font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:22px; color:#fff;">{{ activeSector.no }}</div>
             <div>
@@ -191,7 +221,7 @@
   </section>
 
   <!-- ===================== ALLOYS & SPECS ===================== -->
-  <section style="max-width:1240px; margin:0 auto; padding:88px 40px;">
+  <section class="wrap sec-pad" style="max-width:1240px; margin:0 auto; padding:88px 40px;">
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center;">
       <div>
         <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:#1d4e85; margin-bottom:16px;">// Materials & Tooling</div>
@@ -206,7 +236,7 @@
           </sc-for>
         </div>
       </div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+      <div class="spec-cards" style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
         <sc-for list="{{ specCards }}" as="c" hint-placeholder-count="4">
           <div style="background:#fff; border:1px solid #e5e4df; border-radius:13px; padding:26px 24px;">
             <div style="font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:40px; line-height:1; color:#2563a8;">{{ c.num }}</div>
@@ -219,7 +249,7 @@
   </section>
 
   <!-- ===================== FACILITY GALLERY ===================== -->
-  <section style="max-width:1240px; margin:0 auto; padding:0 40px 88px;">
+  <section class="wrap sec-pad-b" style="max-width:1240px; margin:0 auto; padding:0 40px 88px;">
     <div style="display:flex; align-items:baseline; justify-content:space-between; gap:20px; flex-wrap:wrap; margin-bottom:28px;">
       <h2 style="font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:32px; line-height:1; color:#191c21; text-transform:uppercase;">On the ground</h2>
       <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:#8a8f96;">Real stock · Real tooling · Real dispatches</span>
@@ -248,7 +278,7 @@
 
   <!-- ===================== PROCESS ===================== -->
   <section id="process" style="background:#191c21; color:#eceae4;">
-    <div style="max-width:1240px; margin:0 auto; padding:90px 40px;">
+    <div class="wrap sec-pad" style="max-width:1240px; margin:0 auto; padding:90px 40px;">
       <div style="max-width:640px; margin-bottom:52px;">
         <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:#6ba3e0; margin-bottom:16px;">// How We Work</div>
         <h2 style="font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:46px; line-height:1.02; color:#fff; text-transform:uppercase;">From blueprint to delivered profile</h2>
@@ -266,7 +296,7 @@
   </section>
 
   <!-- ===================== RFQ FORM ===================== -->
-  <section id="rfq" style="max-width:1240px; margin:0 auto; padding:94px 40px;">
+  <section id="rfq" class="wrap sec-pad" style="max-width:1240px; margin:0 auto; padding:94px 40px;">
     <div style="display:grid; grid-template-columns:0.9fr 1.1fr; gap:56px; align-items:start;">
       <div>
         <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:#1d4e85; margin-bottom:16px;">// Request a Quote</div>
@@ -289,7 +319,7 @@
         </div>
       </div>
 
-      <div style="background:#fff; border:1px solid #e5e4df; border-radius:16px; padding:36px; box-shadow:0 20px 50px rgba(25,28,33,0.07);">
+      <div class="form-card" style="background:#fff; border:1px solid #e5e4df; border-radius:16px; padding:36px; box-shadow:0 20px 50px rgba(25,28,33,0.07);">
         <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
           <div style="text-align:center; padding:40px 10px;">
             <div style="width:64px; height:64px; border-radius:50%; background:#2563a8; display:grid; place-items:center; font-size:30px; color:#fff; margin:0 auto 20px;">✓</div>
@@ -358,9 +388,9 @@
 
   <!-- ===================== CREDIBILITY BAR ===================== -->
   <div style="background:#f7f6f3; border-top:1px solid #e5e4df;">
-    <div style="max-width:1240px; margin:0 auto; padding:30px 40px 34px;">
+    <div class="wrap" style="max-width:1240px; margin:0 auto; padding:30px 40px 34px;">
       <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.12em; text-transform:uppercase; color:#8a8f96; text-align:center; margin-bottom:22px;">Trusted by fabricators, façade contractors &amp; OEMs across Delhi NCR and North India</div>
-      <div style="display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap;">
+      <div class="cred-row" style="display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap;">
       <sc-for list="{{ credBadges }}" as="b" hint-placeholder-count="4">
         <div style="display:flex; align-items:center; gap:12px;">
           <span style="width:9px; height:9px; background:#2563a8; border-radius:2px; display:inline-block; flex:none;"></span>
@@ -376,7 +406,7 @@
 
   <!-- ===================== FOOTER ===================== -->
   <footer id="contact" style="background:#14171b; color:#c6c9ce;">
-    <div style="max-width:1240px; margin:0 auto; padding:70px 40px 40px; display:grid; grid-template-columns:1.4fr 1fr 1fr 1.1fr; gap:40px;">
+    <div class="wrap sec-pad" style="max-width:1240px; margin:0 auto; padding:70px 40px 40px; display:grid; grid-template-columns:1.4fr 1fr 1fr 1.1fr; gap:40px;">
       <div>
         <div style="display:flex; align-items:center; gap:11px; margin-bottom:18px;">
           <span style="width:34px; height:34px; display:grid; place-items:center; background:linear-gradient(135deg,#3b82d6,#1d4e85); border-radius:7px; font-family:'Barlow Condensed',sans-serif; font-weight:800; color:#fff; font-size:20px;">T</span>
@@ -415,7 +445,7 @@
       </div>
     </div>
     <div style="border-top:1px solid #24282e;">
-      <div style="max-width:1240px; margin:0 auto; padding:20px 40px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+      <div class="wrap" style="max-width:1240px; margin:0 auto; padding:20px 40px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
         <span style="font-size:12.5px; color:#6b7178;">© {{ year }} Tia Aluminium Profiles. All rights reserved.</span>
         <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.06em; color:#6b7178;">GSTIN: 07**********2ZQ</span>
         <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.06em; color:#6b7178;">Aluminium Extrusion Supplier · Custom Dies · Delhi NCR</span>
