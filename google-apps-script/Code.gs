@@ -1,6 +1,5 @@
 const SHEET_NAME = 'RFQ Submissions';
 const NOTIFY_EMAIL = 'rsaini65@gmail.com';
-const DRIVE_FOLDER_NAME = 'Tia Aluminium - RFQ Uploads';
 const MAX_FILE_BYTES = 25 * 1024 * 1024; // Gmail's attachment cap
 
 function doPost(e) {
@@ -15,24 +14,21 @@ function doPost(e) {
     }
 
     const sheet = getOrCreateSheet();
-    let fileLink = '';
     let fileBlob = null;
+    let fileName = '';
 
     if (data.file && data.file.data) {
       const bytes = Utilities.base64Decode(data.file.data);
       if (bytes.length > MAX_FILE_BYTES) {
-        // Reject before touching Drive/Sheet/Mail at all — an oversized
-        // file would never transport via Gmail's attachment cap anyway.
+        // Reject before touching Sheet/Mail at all — an oversized file
+        // would never transport via Gmail's attachment cap anyway.
         return ContentService.createTextOutput(JSON.stringify({
           status: 'error',
           message: 'File exceeds the 25 MB limit.',
         })).setMimeType(ContentService.MimeType.JSON);
       }
-      const folder = getOrCreateFolder();
       fileBlob = Utilities.newBlob(bytes, data.file.mimeType, data.file.name);
-      const driveFile = folder.createFile(fileBlob);
-      driveFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-      fileLink = driveFile.getUrl();
+      fileName = data.file.name;
     }
 
     sheet.appendRow([
@@ -43,7 +39,7 @@ function doPost(e) {
       data.quantity || '',
       data.sector || '',
       data.details || '',
-      fileLink,
+      fileName,
     ]);
 
     const bodyLines = [
@@ -55,7 +51,7 @@ function doPost(e) {
       'Estimated Quantity: ' + (data.quantity || '-'),
       'Sector: ' + (data.sector || '-'),
       'Details: ' + (data.details || '-'),
-      'Blueprint: ' + (fileLink || 'No file attached'),
+      'Blueprint: ' + (fileName ? 'Attached (' + fileName + ')' : 'No file attached'),
     ];
 
     const mailOptions = {};
@@ -76,13 +72,7 @@ function getOrCreateSheet() {
   let sheet = ss.getSheetByName(SHEET_NAME);
   if (!sheet) {
     sheet = ss.insertSheet(SHEET_NAME);
-    sheet.appendRow(['Timestamp', 'Full Name', 'Email', 'Phone', 'Quantity', 'Sector', 'Details', 'Blueprint Link']);
+    sheet.appendRow(['Timestamp', 'Full Name', 'Email', 'Phone', 'Quantity', 'Sector', 'Details', 'Blueprint Filename']);
   }
   return sheet;
-}
-
-function getOrCreateFolder() {
-  const folders = DriveApp.getFoldersByName(DRIVE_FOLDER_NAME);
-  if (folders.hasNext()) return folders.next();
-  return DriveApp.createFolder(DRIVE_FOLDER_NAME);
 }
