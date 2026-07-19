@@ -19,5 +19,8 @@ jobs:
         env:
           MIRROR_TOKEN: ${{ secrets.MIRROR_TOKEN }}
         run: |
+          git rm -r --cached .github >/dev/null
+          rm -rf .github
+          git -c user.name="tia-mirror-bot" -c user.email="actions@github.com" commit -m "Mirror sync (excludes .github)"
           git remote add mirror "https://tia-aluminium:${MIRROR_TOKEN}@github.com/tia-aluminium/tia-aluminium.github.io.git"
           git push mirror HEAD:main --force
