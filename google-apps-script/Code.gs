@@ -1,6 +1,7 @@
 const SHEET_NAME = 'RFQ Submissions';
 const NOTIFY_EMAIL = 'rsaini65@gmail.com';
 const DRIVE_FOLDER_NAME = 'Tia Aluminium - RFQ Uploads';
+const MAX_FILE_BYTES = 25 * 1024 * 1024; // Gmail's attachment cap
 
 function doPost(e) {
   try {
@@ -18,8 +19,16 @@ function doPost(e) {
     let fileBlob = null;
 
     if (data.file && data.file.data) {
-      const folder = getOrCreateFolder();
       const bytes = Utilities.base64Decode(data.file.data);
+      if (bytes.length > MAX_FILE_BYTES) {
+        // Reject before touching Drive/Sheet/Mail at all — an oversized
+        // file would never transport via Gmail's attachment cap anyway.
+        return ContentService.createTextOutput(JSON.stringify({
+          status: 'error',
+          message: 'File exceeds the 25 MB limit.',
+        })).setMimeType(ContentService.MimeType.JSON);
+      }
+      const folder = getOrCreateFolder();
       fileBlob = Utilities.newBlob(bytes, data.file.mimeType, data.file.name);
       const driveFile = folder.createFile(fileBlob);
       driveFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);

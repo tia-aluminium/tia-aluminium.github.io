@@ -397,6 +397,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900}}">
 const RFQ_ENDPOINT = "https://script.google.com/macros/s/AKfycbwDehHryZTqTpTOMI7_Y7o9cYAczBRJYDXT5l9gHZiDiNsUnNHv-s9bmlm20WrFLj-G-w/exec";
+const MAX_FILE_BYTES = 25 * 1024 * 1024;
 
 function fileToBase64(file) {
   return new Promise((resolve, reject) => {
@@ -495,7 +496,17 @@ class Component extends DCLogic {
       submitLabel: this.state.submitting ? "Sending…" : "Submit Quote Request →",
       onFile: (e) => {
         const f = e.target.files && e.target.files[0];
-        if (f) this.setState({ fileName: f.name, file: f });
+        if (!f) return;
+        if (f.size > MAX_FILE_BYTES) {
+          e.target.value = "";
+          this.setState({
+            file: null,
+            fileName: "Click to upload or drag a file here",
+            errorMsg: "That file is over 25 MB — please attach a smaller file or share it separately.",
+          });
+          return;
+        }
+        this.setState({ fileName: f.name, file: f, errorMsg: "" });
       },
       handleSubmit: async (e) => {
         e.preventDefault();
